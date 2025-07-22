@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>List of Links</title>
+</head>
+<body>
+    <h1>List of Links</h1>
+    <ul>
+        <li><a href="https://www.youtube.com/@asdfsafsdfadsf" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@asdfsafsdfadsf</a></li>
+        <li><a href="https://github.com/omranisecuritydvjbdnvkds/" target="_blank" rel="noopener noreferrer">https://github.com/omranisecuritydvjbdnvkds/</a></li>
+        <li><a href="https://t.me/osec_channel" target="_blank" rel="noopener noreferrer">https://t.me/osec_channel</a></li>
+    </ul>
+</body>
+</html>
