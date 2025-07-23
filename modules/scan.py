@@ -18,6 +18,10 @@ SERVICES = {
     "github": {
         "domains": ["github.com"],
         "check": lambda resp: resp.status_code == 404,
+    },
+    "Soundcloud": {
+        "domains": ["soundcloud.com"],
+        "check": lambda resp: resp.status_code == 404,
     }
 }
 
