@@ -23,7 +23,7 @@ SERVICES = {
         "domains": ["soundcloud.com"],
         "check": lambda resp: resp.status_code == 404,
     },
-    "Google Play (App/Developer Page)	": {
+    "Google Play (App/Developer Page)": {
         "domains": ["play.google.com"],
         "check": lambda resp: resp.status_code == 404,
     },
