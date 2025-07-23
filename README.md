@@ -41,7 +41,7 @@ More services will be added soon with contributions from the community to enhanc
 Scan a single URL:
 
 ```sh
-python3 blhawk.py -u https://target.com/example
+python blhawk.py -u https://target.com/example
 ```
 
 ## Roadmap
