@@ -11,6 +11,8 @@ BLHawk checks URLs for broken link vulnerabilities on popular services like Tele
   - YouTube (`youtube.com`, `www.youtube.com`)
   - Medium (`medium.com`)
   - GitHub (`github.com`)
+  - Soundcloud (`soundcloud.com`)
+  - Google Play (App/Developer Page) (`play.google.com`)
 - Sends HTTP requests and analyzes server responses to detect vulnerabilities
 - Color-coded output (green for vulnerable, red for not vulnerable)
 
