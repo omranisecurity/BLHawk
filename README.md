@@ -15,6 +15,7 @@ BLHawk checks URLs for broken link vulnerabilities on popular services like Tele
   - Google Play (App/Developer Page) (`play.google.com`)
   - Buy Me a Coffee (`buymeacoffee.com`)
   - Dribbble (`dribbble.com`)
+  - npmjs (`www.npmjs.com`)
 - Sends HTTP requests and analyzes server responses to detect vulnerabilities
 - Color-coded output (green for vulnerable, red for not vulnerable)
 
