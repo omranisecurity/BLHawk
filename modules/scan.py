@@ -31,6 +31,12 @@ SERVICES = {
         "domains": ["buymeacoffee.com"],
         "check": lambda resp: resp.status_code == 404,
     },
+    "Dribbble": {
+        "domains": ["dribbble.com"],
+        "check": lambda resp: resp.status_code == 404 and 'that page is gone' in resp.text,
+    },
+
+
 }
 
 def get_service_by_host(host):
