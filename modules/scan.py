@@ -39,6 +39,10 @@ SERVICES = {
         "domains": ["www.npmjs.com"],
         "check": lambda resp: resp.status_code == 404,
     },
+    "pypi (project)": {
+        "domains": ["pypi.org"],
+        "check": lambda resp: resp.status_code == 404 and 'We looked everywhere but couldn\'t find this page' in resp.text,
+    },
 }
 
 def get_service_by_host(host):

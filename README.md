@@ -16,6 +16,7 @@ BLHawk checks URLs for broken link vulnerabilities on popular services like Tele
   - Buy Me a Coffee (`buymeacoffee.com`)
   - Dribbble (`dribbble.com`)
   - npmjs (`www.npmjs.com`)
+  - pypi project (`pypi.org`)
 - Sends HTTP requests and analyzes server responses to detect vulnerabilities
 - Color-coded output (green for vulnerable, red for not vulnerable)
 
