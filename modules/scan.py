@@ -43,6 +43,14 @@ SERVICES = {
         "domains": ["pypi.org"],
         "check": lambda resp: resp.status_code == 404 and 'We looked everywhere but couldn\'t find this page' in resp.text,
     },
+    "Myket": {
+        "domains": ["myket.ir"],
+        "check": lambda resp: resp.status_code == 404,
+    },
+    "CafeBazaar": {
+        "domains": ["cafebazaar.ir"],
+        "check": lambda resp: resp.status_code == 404,
+    },
 }
 
 def get_service_by_host(host):
