@@ -17,6 +17,8 @@ BLHawk checks URLs for broken link vulnerabilities on popular services like Tele
   - Dribbble (`dribbble.com`)
   - npmjs (`www.npmjs.com`)
   - pypi project (`pypi.org`)
+  - CafeBazaar (`cafebazaar.ir`)
+  - Myket (`myket.ir`)
 - Sends HTTP requests and analyzes server responses to detect vulnerabilities
 - Color-coded output (green for vulnerable, red for not vulnerable)
 
