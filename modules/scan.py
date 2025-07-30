@@ -1,6 +1,8 @@
 import requests
-from colorama import Fore, Style
+from colorama import Fore, Style, init
 from urllib.parse import urlparse
+
+init(autoreset=True)
 
 SERVICES = {
     "telegram": {
@@ -19,11 +21,11 @@ SERVICES = {
         "domains": ["github.com"],
         "check": lambda resp: resp.status_code == 404,
     },
-    "Soundcloud": {
+    "soundcloud": {
         "domains": ["soundcloud.com"],
         "check": lambda resp: resp.status_code == 404,
     },
-    "Google Play (App/Developer Page)": {
+    "googleplay": {
         "domains": ["play.google.com"],
         "check": lambda resp: resp.status_code == 404,
     },
@@ -31,7 +33,7 @@ SERVICES = {
         "domains": ["buymeacoffee.com"],
         "check": lambda resp: resp.status_code == 404,
     },
-    "Dribbble": {
+    "dribbble": {
         "domains": ["dribbble.com"],
         "check": lambda resp: resp.status_code == 404 and 'that page is gone' in resp.text,
     },
@@ -39,7 +41,7 @@ SERVICES = {
         "domains": ["www.npmjs.com"],
         "check": lambda resp: resp.status_code == 404,
     },
-    "pypi (project)": {
+    "pypi": {
         "domains": ["pypi.org"],
         "check": lambda resp: resp.status_code == 404 and 'We looked everywhere but couldn\'t find this page' in resp.text,
     },
@@ -52,7 +54,6 @@ SERVICES = {
         "check": lambda resp: resp.status_code == 404,
     },
 }
-
 def get_service_by_host(host):
     for service_name, service_info in SERVICES.items():
         if host in service_info["domains"]:
@@ -67,9 +68,11 @@ def check_vulnerability(url):
 
     if service_info:
         try:
-            response = requests.get(url, timeout=5)
+            #response = requests.get(url, timeout=5)
+            headers = {"User-Agent": "Mozilla/5.0 (compatible; BLHawk/0.3.0)"}
+            response = requests.get(url, timeout=5, headers=headers)
             is_vuln = service_info["check"](response)
-
+            
             if is_vuln:
                 print(f"{Fore.GREEN}[VULNERABLE] {url} ({service_name}){Style.RESET_ALL}")
             else:
