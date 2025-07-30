@@ -23,6 +23,10 @@ BLHawk checks URLs for broken link vulnerabilities on popular services like Tele
 Future Work:
 More services will be added soon with contributions from the community to enhance the tool’s coverage and capabilities.
 
+> **Note**: Some popular websites — such as Instagram, Twitter, and similar platforms — have not been included by default due to strict **rate-limiting restrictions** that prevent effective automated testing.  
+If you have suggestions on how support for these platforms can be added despite these limitations, feel free to [open an issue](https://github.com/omranisecurity/BLHawk/issues/new).
+
+
 ---
 
 ### Prerequisites
