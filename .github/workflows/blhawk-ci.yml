@@ -22,4 +22,4 @@ jobs:
           pip install -r requirements.txt
       - name: Run BLHawk source scan
         run: |
-          python blhawk.py --src ./modules
+          python blhawk.py --src .
