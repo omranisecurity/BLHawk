@@ -1,4 +1,4 @@
-import requests
+import requests, os, re
 from colorama import Fore, Style, init
 from urllib.parse import urlparse
 
@@ -59,6 +59,25 @@ def get_service_by_host(host):
         if host in service_info["domains"]:
             return service_name, service_info
     return None, None
+
+def scan_source(path):
+    """
+    Scan source code files in the given directory for URLs and check their vulnerability.
+    """
+    url_pattern = re.compile(r'https?://[\w\.-]+(?:/[\w\./\-\?&%#=]*)?')
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            try:
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read()
+                    urls = url_pattern.findall(content)
+                    for url in set(urls):
+                        print(f"[SCAN] {file_path}: {url}")
+                        check_vulnerability(url)
+            except Exception as e:
+                print(f"[ERROR] Could not read {file_path}: {e}")
+
 
 def check_vulnerability(url):
     parsed = urlparse(url)
