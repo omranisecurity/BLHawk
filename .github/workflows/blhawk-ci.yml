@@ -3,9 +3,7 @@ name: BLHawk Scan
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ test-action ]
 
 jobs:
   scan:
