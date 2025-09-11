@@ -1,23 +1,41 @@
-# Sample GitHub Actions workflow for BLHawk CI integration
-name: BLHawk Scan
+name: Broken Link Scan on Commit
 
 on:
   push:
-    branches: [ test-action ]
+    branches:
+      - test-action
 
 jobs:
-  scan:
+  broken-link-check:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
+
       - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Broken Link Scan
+        id: scan
         run: |
-          pip install -r requirements.txt
-      - name: Run BLHawk source scan
-        run: |
-          python blhawk.py --src ./test_sources
+          python .github/scripts/broken_link_commit_check.py
+          echo "links_report<<EOF" >> $GITHUB_OUTPUT
+          cat broken_links_report.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Commit Check
+        uses: peter-evans/create-or-update-check@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: "Broken Link Scan"
+          head-sha: ${{ github.sha }}
+          status: completed
+          conclusion: neutral
+          output-title: "Broken Link Scan Report"
+          output-summary: ${{ steps.scan.outputs.links_report }}
