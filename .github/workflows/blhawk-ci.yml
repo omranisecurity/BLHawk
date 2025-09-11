@@ -1,9 +1,9 @@
-name: Broken Link Scan on Commit
+name: Broken Link Scan on PR
 
 on:
-  push:
+  pull_request:
     branches:
-      - test-action
+      - test-action   # only run on 'test-action' branch
 
 jobs:
   broken-link-check:
@@ -29,13 +29,13 @@ jobs:
           cat broken_links_report.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Create Commit Check
-        uses: peter-evans/create-or-update-check@v2
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: "Broken Link Scan"
-          head-sha: ${{ github.sha }}
-          status: completed
-          conclusion: neutral
-          output-title: "Broken Link Scan Report"
-          output-summary: ${{ steps.scan.outputs.links_report }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Broken Link Scan Report**
+
+            ${{ steps.scan.outputs.links_report }}
+          edit-mode: replace
