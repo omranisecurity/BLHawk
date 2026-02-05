@@ -1,8 +1,8 @@
 # BLHawk - Dead links aren't always dead!
 
-BLHawk checks URLs for broken link vulnerabilities on popular services like Telegram, YouTube, Medium, and GitHub.
+## Description
 
----
+BLHawk is a security tool that identifies broken link vulnerabilities across popular platforms. It helps detect potential account hijacking risks by analyzing URLs on services like Telegram, YouTube, Medium, and GitHub.
 
 ## Features
 
