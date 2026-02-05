@@ -53,6 +53,26 @@ SERVICES = {
         "domains": ["cafebazaar.ir"],
         "check": lambda resp: resp.status_code == 404,
     },
+    "DEV Community": {
+        "domains": ["dev.to"],
+        "check": lambda resp: resp.status_code == 404 and 'page not found' in resp.text
+    },
+    "Vimeo": {
+        "domains": ["vimeo.com"],
+        "check": lambda resp: resp.status_code == 404,
+    },
+    "twitch": {
+        "domains": ["twitch.tv"],
+        "check": lambda resp: resp.status_code == 404,
+    },
+    "GitLab": {
+        "domains": ["gitlab.com"],
+        "check": lambda resp: resp.status_code in [301, 302, 303, 307, 308] and 'https://gitlab.com/users/sign_in' in resp.headers.get('Location', ''),
+    },
+    "Pinterest": {
+        "domains": ["pinterest.com","www.pinterest.com"],
+        "check": lambda resp: "User not found." in resp.text,
+    }
 }
 def get_service_by_host(host):
     for service_name, service_info in SERVICES.items():
@@ -70,7 +90,7 @@ def check_vulnerability(url):
         try:
             #response = requests.get(url, timeout=5)
             headers = {"User-Agent": "Mozilla/5.0 (compatible; BLHawk/0.3.0)"}
-            response = requests.get(url, timeout=5, headers=headers)
+            response = requests.get(url, timeout=5, headers=headers, allow_redirects=False)
             is_vuln = service_info["check"](response)
             
             if is_vuln:

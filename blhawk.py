@@ -2,7 +2,7 @@ from modules.input_loader import inputLoader
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(prog='BLHawk', description='Dead links aren\'t always dead!', epilog='version: 0.3.0')
+    parser = argparse.ArgumentParser(prog='BLHawk', description='Dead links aren\'t always dead!', epilog='version: 0.4.0')
     parser.add_argument('-u', '--url', type=str, help='example: https://www.target.com')
     #parser.add_argument('-l','--list', type=str, help='File containing URLs to check')
     #parser.add_argument('-t', '--thread', type=int, default=10, help='Number of threads to use (default: 10)')
