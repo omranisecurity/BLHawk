@@ -1,7 +1,5 @@
 import validators
 
-def url_validator(url):
-    if validators.url(url):
-        return True
-    else:
-        return False
+def url_validator(url) -> bool:
+    """Return True if `url` looks like a valid URL."""
+    return bool(validators.url(url))

@@ -4,6 +4,9 @@ from urllib.parse import urlparse
 
 init(autoreset=True)
 
+SESSION = requests.Session()
+SESSION.headers.update({"User-Agent": "Mozilla/5.0 (compatible; BLHawk/0.3.0)"})
+
 SERVICES = {
     "telegram": {
         "domains": ["t.me", "telegram.me"],
@@ -82,21 +85,21 @@ def get_service_by_host(host):
 
 def check_vulnerability(url):
     parsed = urlparse(url)
-    host = parsed.netloc
+    host = parsed.hostname or parsed.netloc
 
     service_name, service_info = get_service_by_host(host)
 
-    if service_info:
-        try:
-            #response = requests.get(url, timeout=5)
-            headers = {"User-Agent": "Mozilla/5.0 (compatible; BLHawk/0.3.0)"}
-            response = requests.get(url, timeout=5, headers=headers, allow_redirects=False)
-            is_vuln = service_info["check"](response)
-            
-            if is_vuln:
-                print(f"{Fore.GREEN}[VULNERABLE] {url} ({service_name}){Style.RESET_ALL}")
-            else:
-                print(f"{Fore.RED}[NOT VULNERABLE] {url} ({service_name}){Style.RESET_ALL}")
-            
-        except requests.RequestException as e:
-            print(f"[ERROR] {url} - {e}")
+    if not service_info:
+        return
+
+    try:
+        response = SESSION.get(url, timeout=5, allow_redirects=False)
+        is_vuln = service_info["check"](response)
+
+        if is_vuln:
+            print(f"{Fore.GREEN}[VULNERABLE] {url} ({service_name}){Style.RESET_ALL}")
+        else:
+            print(f"{Fore.RED}[NOT VULNERABLE] {url} ({service_name}){Style.RESET_ALL}")
+
+    except requests.RequestException as e:
+        print(f"[ERROR] {url} - {e}")
