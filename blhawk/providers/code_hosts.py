@@ -48,6 +48,15 @@ class GitHubProvider(StatusProvider):
 
 
 @register
+class BitbucketProvider(StatusProvider):
+    name = "bitbucket"
+    hosts = ("bitbucket.org",)
+    resource_type = "user/workspace/repository"
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.HIGH
+
+
+@register
 class GitLabProvider(Provider):
     name = "gitlab"
     hosts = ("gitlab.com",)

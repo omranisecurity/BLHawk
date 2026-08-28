@@ -36,3 +36,21 @@ class CafeBazaarProvider(StatusProvider):
     resource_type = "app"
     default_reclaimability = Reclaimability.IMPOSSIBLE
     default_severity = Severity.LOW
+
+
+@register
+class AppleAppStoreProvider(StatusProvider):
+    name = "appstore"
+    hosts = ("apps.apple.com", "itunes.apple.com")
+    resource_type = "app"
+    default_reclaimability = Reclaimability.IMPOSSIBLE
+    default_severity = Severity.LOW
+
+
+@register
+class FDroidProvider(StatusProvider):
+    name = "fdroid"
+    hosts = ("f-droid.org",)
+    resource_type = "app package"
+    default_reclaimability = Reclaimability.IMPOSSIBLE
+    default_severity = Severity.LOW

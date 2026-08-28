@@ -10,6 +10,7 @@ from .base import (
     InterpretResult,
     Provider,
     ProviderContext,
+    StatusProvider,
 )
 from .registry import register
 
@@ -29,3 +30,12 @@ class DribbbleProvider(Provider):
         if resp.status_code == 200:
             return InterpretResult(state=STATE_PRESENT, signals=["http-status=200"])
         return InterpretResult(state=STATE_UNKNOWN, signals=[f"http-status={resp.status_code}"])
+
+
+@register
+class BehanceProvider(StatusProvider):
+    name = "behance"
+    hosts = ("behance.net", "www.behance.net")
+    resource_type = "user"
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.MEDIUM

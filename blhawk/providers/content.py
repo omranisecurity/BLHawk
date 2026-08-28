@@ -52,3 +52,23 @@ class BuyMeACoffeeProvider(StatusProvider):
     resource_type = "creator page"
     default_reclaimability = Reclaimability.POSSIBLE
     default_severity = Severity.LOW
+
+
+@register
+class HashnodeProvider(StatusProvider):
+    name = "hashnode"
+    hosts = ("hashnode.com",)
+    host_suffixes = (".hashnode.dev",)
+    resource_type = "user/blog"
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.MEDIUM
+
+
+@register
+class SubstackProvider(StatusProvider):
+    name = "substack"
+    hosts = ("substack.com",)
+    host_suffixes = (".substack.com",)
+    resource_type = "publication"
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.MEDIUM

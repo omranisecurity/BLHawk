@@ -57,6 +57,29 @@ class TelegramProvider(Provider):
 
 
 @register
+class RedditProvider(StatusProvider):
+    name = "reddit"
+    hosts = ("reddit.com", "www.reddit.com", "old.reddit.com")
+    resource_type = "user/subreddit"
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.MEDIUM
+
+    def interpret(self, resp: HTTPResponse, ctx: ProviderContext) -> InterpretResult:
+        result = super().interpret(resp, ctx)
+        result.notes.append("Reddit rate-limits aggressively; keep concurrency low")
+        return result
+
+
+@register
+class BlueskyProvider(StatusProvider):
+    name = "bluesky"
+    hosts = ("bsky.app",)
+    resource_type = "handle"
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.MEDIUM
+
+
+@register
 class PinterestProvider(StatusProvider):
     name = "pinterest"
     hosts = ("pinterest.com", "www.pinterest.com")

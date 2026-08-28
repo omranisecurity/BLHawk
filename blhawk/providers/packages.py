@@ -23,13 +23,18 @@ from .base import (
 from .registry import register
 
 
+def _path_segments(url: str) -> list[str]:
+    return [seg for seg in urlsplit(url).path.split("/") if seg]
+
+
 def _first_path_segment(url: str) -> str | None:
-    segments = [seg for seg in urlsplit(url).path.split("/") if seg]
+    segments = _path_segments(url)
     if not segments:
         return None
-    if segments[0] == "package" and len(segments) > 1:  # npmjs.com/package/<name>
-        return segments[1]
-    if segments[0] == "project" and len(segments) > 1:  # pypi.org/project/<name>
+    # Registry web URLs prefix the name with a route segment.
+    if segments[0] in ("package", "project", "crates", "gems", "packages") and len(segments) > 1:
+        if segments[0] == "packages" and len(segments) > 2:  # packagist vendor/name
+            return f"{segments[1]}/{segments[2]}"
         return segments[1]
     return segments[0]
 
@@ -76,3 +81,44 @@ class PyPIProvider(StatusProvider):
         if status == 200:
             return InterpretResult(state=STATE_PRESENT, signals=["pypi-json=200"])
         return InterpretResult(state=STATE_UNKNOWN, signals=[f"http-status={status}"])
+
+
+@register
+class RubyGemsProvider(StatusProvider):
+    name = "rubygems"
+    hosts = ("rubygems.org",)
+    resource_type = "gem"
+    default_reclaimability = Reclaimability.UNLIKELY
+    default_severity = Severity.LOW
+
+    def probe_url(self, target: Target) -> str:
+        gem = _first_path_segment(target.url)
+        return f"https://rubygems.org/api/v1/gems/{gem}.json" if gem else target.url
+
+
+@register
+class PackagistProvider(StatusProvider):
+    name = "packagist"
+    hosts = ("packagist.org",)
+    resource_type = "package"
+    default_reclaimability = Reclaimability.UNLIKELY
+    default_severity = Severity.LOW
+
+    def probe_url(self, target: Target) -> str:
+        pkg = _first_path_segment(target.url)
+        return f"https://packagist.org/packages/{pkg}.json" if pkg else target.url
+
+
+@register
+class CratesProvider(StatusProvider):
+    name = "crates"
+    hosts = ("crates.io",)
+    resource_type = "crate"
+    # crates.io never deletes published crates, so a 404 means the name was
+    # never taken and is therefore registerable.
+    default_reclaimability = Reclaimability.POSSIBLE
+    default_severity = Severity.MEDIUM
+
+    def probe_url(self, target: Target) -> str:
+        crate = _first_path_segment(target.url)
+        return f"https://crates.io/api/v1/crates/{crate}" if crate else target.url
