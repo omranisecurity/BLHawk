@@ -1,0 +1,4 @@
+{
+  "name": "BLHawk",
+  "install": "./.cursor/install.sh"
+}
