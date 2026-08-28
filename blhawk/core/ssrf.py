@@ -27,7 +27,6 @@ _BLOCKED_NETWORKS: list[ipaddress._BaseNetwork] = [
     ipaddress.ip_network("::1/128"),
     ipaddress.ip_network("fc00::/7"),  # unique local
     ipaddress.ip_network("fe80::/10"),  # link-local
-    ipaddress.ip_network("::ffff:0:0/96"),  # IPv4-mapped IPv6
     ipaddress.ip_network("fd00:ec2::254/128"),  # AWS IMDS over IPv6
 ]
 
@@ -58,6 +57,9 @@ class SSRFGuard:
             addr = ipaddress.ip_address(ip)
         except ValueError:
             return True  # not a parseable IP -> refuse
+        # Unwrap IPv4-mapped IPv6 (e.g. ::ffff:127.0.0.1) and validate the v4.
+        if addr.version == 6 and getattr(addr, "ipv4_mapped", None) is not None:
+            return self.is_ip_blocked(str(addr.ipv4_mapped))
         if addr.is_unspecified or addr.is_loopback or addr.is_link_local:
             return True
         if addr.is_multicast or addr.is_reserved:

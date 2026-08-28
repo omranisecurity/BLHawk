@@ -7,16 +7,25 @@ from pathlib import Path
 from ..core.errors import ConfigError
 from ..scope.model import AssetType, Scope
 
+#: Refuse absurdly large input files to bound memory (malicious-input guard).
+MAX_INPUT_BYTES = 50 * 1024 * 1024
+MAX_INPUT_LINES = 1_000_000
+
 
 def read_target_file(path: str | Path) -> list[str]:
     p = Path(path)
     if not p.exists():
         raise ConfigError(f"target file not found: {p}")
+    size = p.stat().st_size
+    if size > MAX_INPUT_BYTES:
+        raise ConfigError(f"target file too large ({size} bytes > {MAX_INPUT_BYTES})")
     targets: list[str] = []
     for line in p.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line and not line.startswith("#"):
             targets.append(line)
+        if len(targets) > MAX_INPUT_LINES:
+            raise ConfigError(f"target file has too many lines (> {MAX_INPUT_LINES})")
     return targets
 
 
