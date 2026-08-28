@@ -61,6 +61,10 @@ def build_parser() -> argparse.ArgumentParser:
                    help="DANGER: disable SSRF guard (controlled testing only)")
     p.add_argument("--list-providers", action="store_true", help="list providers and exit")
     p.add_argument("--list-programs", action="store_true", help="list programs and exit")
+    p.add_argument("--import-programs", help="import program metadata (JSON/YAML) into the store")
+    p.add_argument("--fetch-program",
+                   help="fetch a single program page (robots-respecting) into the store")
+    p.add_argument("--store-dir", help="directory for the BugRap program store cache")
     p.add_argument("--validate-scope", help="parse and summarize a scope file, then exit")
     p.add_argument("--version", action="version", version=f"BLHawk {__version__}")
     return p
@@ -102,26 +106,46 @@ def _validate_scope(path: str) -> int:
 def _load_scope(args: argparse.Namespace) -> Scope | None:
     if args.scope:
         return load_scope_file(args.scope)
-    if args.program or (args.platform and args.platform.lower() == "bugrap"):
-        return _load_program_scope(args.platform, args.program)
+    if args.program:
+        from ..bugrap.integration import resolve_program_scope
+
+        return resolve_program_scope(args.platform, args.program, args.store_dir)
     return None
 
 
-def _load_program_scope(platform: str | None, program: str | None) -> Scope:
-    try:
-        from ..bugrap.integration import resolve_program_scope
-    except ImportError as exc:  # pragma: no cover - defensive
-        raise BLHawkError("BugRap integration is unavailable") from exc
-    return resolve_program_scope(platform, program)
-
-
 def _list_programs(args: argparse.Namespace) -> int:
+    from ..bugrap.integration import list_programs_cli
+
+    return list_programs_cli(args.platform, args.store_dir)
+
+
+def _import_programs(args: argparse.Namespace) -> int:
+    from ..bugrap.integration import import_programs_file
+
     try:
-        from ..bugrap.integration import list_programs_cli
-    except ImportError:  # pragma: no cover - defensive
-        print("BugRap integration is unavailable", file=sys.stderr)
+        return import_programs_file(args.import_programs, args.store_dir)
+    except BLHawkError as exc:
+        print(f"error: {exc}", file=sys.stderr)
         return 1
-    return list_programs_cli(args.platform)
+
+
+def _fetch_program(args: argparse.Namespace) -> int:
+    from ..bugrap.fetch import fetch_program
+    from ..bugrap.integration import get_store
+
+    config = ScanConfig(timeout=args.timeout, allow_private=args.allow_private)
+    scanner = Scanner(config=config)
+    try:
+        program = fetch_program(scanner.http, args.fetch_program, name=args.program)
+        change = get_store(args.store_dir).upsert(program)
+    except BLHawkError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    print(
+        f"Fetched '{program.name}' with {len(program.in_scope_assets)} in-scope asset(s); "
+        f"{'new' if change.is_new else 'updated'}. VERIFY against official rules before scanning."
+    )
+    return 0
 
 
 def _gather_targets(args: argparse.Namespace, scope: Scope | None, scanner: Scanner) -> list[str]:
@@ -178,6 +202,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _print_providers()
     if args.validate_scope:
         return _validate_scope(args.validate_scope)
+    if args.import_programs:
+        return _import_programs(args)
+    if args.fetch_program:
+        return _fetch_program(args)
     if args.list_programs:
         return _list_programs(args)
 

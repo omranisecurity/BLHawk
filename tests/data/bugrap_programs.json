@@ -1,0 +1,27 @@
+{
+  "programs": [
+    {
+      "name": "example-web3",
+      "url": "https://bugrap.io/bounties/example-web3",
+      "bounty_range": "up to 5000 USDC",
+      "assets": [
+        {"asset": "*.example.org", "type": "wildcard", "scope": "in"},
+        {"asset": "https://github.com/example-web3/contracts", "type": "repository", "scope": "in"},
+        {"asset": "admin.example.org", "type": "domain", "scope": "out"}
+      ],
+      "restrictions": ["no automated scanning of the admin panel"],
+      "rate_limit": "5 req/s",
+      "safe_harbor": "yes",
+      "source_url": "https://bugrap.io/bounties/example-web3"
+    },
+    {
+      "name": "manual-only-app",
+      "url": "https://bugrap.io/bounties/manual-only-app",
+      "assets": [
+        {"asset": "com.example.app", "type": "mobile_app", "scope": "in"}
+      ],
+      "restrictions": ["manual testing only"],
+      "research_status": "manual_required"
+    }
+  ]
+}
