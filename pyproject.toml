@@ -12,10 +12,7 @@ license = { text = "MIT" }
 authors = [{ name = "omranisecurity" }]
 keywords = ["security", "bug-bounty", "takeover", "dangling-links", "broken-links"]
 dependencies = [
-    "colorama==0.4.6",
     "requests==2.33.0",
-    "validators==0.35.0",
-    "PyYAML==6.0.2",
 ]
 
 [project.urls]
@@ -23,7 +20,16 @@ Homepage = "https://github.com/omranisecurity/BLHawk"
 Issues = "https://github.com/omranisecurity/BLHawk/issues"
 
 [project.optional-dependencies]
+# colorama (colored terminal output) and PyYAML (YAML scope/program files) are
+# optional; BLHawk degrades gracefully without them but they are installed by
+# default via requirements.txt / the "full" extra.
+full = [
+    "colorama==0.4.6",
+    "PyYAML==6.0.2",
+]
 dev = [
+    "colorama==0.4.6",
+    "PyYAML==6.0.2",
     "pytest==9.0.3",
     "pytest-cov==6.0.0",
     "responses==0.25.3",

@@ -7,7 +7,17 @@ import io
 import json
 from pathlib import Path
 
-from colorama import Fore, Style
+try:  # colorama is an optional, purely cosmetic dependency
+    from colorama import Fore, Style
+except ModuleNotFoundError:  # pragma: no cover - exercised only without colorama
+
+    class _NoColor:
+        """Fallback that renders every color/style attribute as an empty string."""
+
+        def __getattr__(self, _name: str) -> str:
+            return ""
+
+    Fore = Style = _NoColor()
 
 from ..core.models import Finding, Verdict
 

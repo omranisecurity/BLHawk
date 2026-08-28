@@ -11,8 +11,6 @@ import io
 import json
 from pathlib import Path
 
-import yaml
-
 from ..core.errors import ScopeError
 from .model import AssetType, Scope, ScopeEntry, infer_asset_type
 
@@ -105,6 +103,10 @@ def parse_json(text: str) -> Scope:
 
 
 def parse_yaml(text: str) -> Scope:
+    try:
+        import yaml
+    except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency
+        raise ScopeError("PyYAML is required for YAML scope files (pip install PyYAML)") from exc
     try:
         data = yaml.safe_load(text)
     except yaml.YAMLError as exc:

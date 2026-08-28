@@ -11,8 +11,6 @@ import json
 import re
 from html import unescape
 
-import yaml
-
 from ..core.errors import BLHawkError
 from ..scope.model import infer_asset_type
 from .models import Program, ProgramAsset
@@ -59,6 +57,10 @@ def parse_programs(text: str, fmt: str) -> list[Program]:
         except json.JSONDecodeError as exc:
             raise BLHawkError(f"invalid JSON program data: {exc}") from exc
     elif fmt in ("yaml", "yml"):
+        try:
+            import yaml
+        except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency
+            raise BLHawkError("PyYAML is required for YAML program data") from exc
         try:
             data = yaml.safe_load(text)
         except yaml.YAMLError as exc:

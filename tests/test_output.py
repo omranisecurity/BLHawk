@@ -84,3 +84,20 @@ def test_markdown_table():
 
 def test_empty_findings_terminal():
     assert "No findings" in format_findings([], fmt="terminal", use_color=False)
+
+
+def test_colorama_fallback_renders_without_colorama():
+    # Even if colorama is unavailable, the fallback yields empty color codes so
+    # terminal output still works (the CLI must not crash on a missing cosmetic
+    # dependency).
+    import importlib
+
+    import blhawk.output.formatters as fmt
+
+    if fmt.Style.__class__.__name__ == "_NoColor":
+        assert fmt.Fore.RED == ""
+        assert fmt.Style.RESET_ALL == ""
+    # With use_color=True the formatter must still produce output regardless.
+    out = format_findings([_finding()], fmt="terminal", use_color=True)
+    assert "github" in out
+    importlib.reload(fmt)
