@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blhawk"
+version = "1.0.0"
+description = "Dangling-reference / broken-link takeover research tool for authorized security research"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "omranisecurity" }]
+keywords = ["security", "bug-bounty", "takeover", "dangling-links", "broken-links"]
+dependencies = [
+    "colorama==0.4.6",
+    "requests==2.32.4",
+    "validators==0.35.0",
+    "PyYAML==6.0.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/omranisecurity/BLHawk"
+Issues = "https://github.com/omranisecurity/BLHawk/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.3",
+    "pytest-cov==5.0.0",
+    "responses==0.25.3",
+    "mypy==1.11.2",
+    "ruff==0.6.9",
+    "pip-audit==2.7.3",
+    "types-requests",
+    "types-PyYAML",
+]
+
+[project.scripts]
+blhawk = "blhawk.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["blhawk*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: tests that hit live third-party services (opt-in; excluded from CI)",
+]
+addopts = "-m 'not live'"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E203"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_ignores = true
+ignore_missing_imports = true
