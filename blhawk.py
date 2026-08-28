@@ -1,26 +1,14 @@
-from modules.input_loader import inputLoader
-import argparse
+#!/usr/bin/env python3
+"""Backward-compatible launcher for BLHawk.
 
-def main():
-    parser = argparse.ArgumentParser(prog='BLHawk', description='Dead links aren\'t always dead!', epilog='version: 0.4.0')
-    parser.add_argument('-u', '--url', type=str, help='example: https://www.target.com')
-    #parser.add_argument('-l','--list', type=str, help='File containing URLs to check')
-    #parser.add_argument('-t', '--thread', type=int, default=10, help='Number of threads to use (default: 10)')
-    #parser.add_argument('-s', '--silent', help='show only result in output')
-    #parser.add_argument('-h', '--help', action=help, help='Display this help message and exit')
-    args = parser.parse_args()
+The implementation now lives in the ``blhawk`` package. This shim keeps the
+historical ``python blhawk.py ...`` invocation working by delegating to the
+package CLI (``blhawk.cli.main``). Prefer the installed ``blhawk`` console
+script or ``python -m blhawk``.
+"""
+from __future__ import annotations
 
-    try:
-        inputLoader(
-                url=args.url,
-                #raw_request=args.list,
-                #cookie=args.filename,
-                #thread=args.thread,
-                #silent=args.silent,
-            )
-        
-    except KeyboardInterrupt:
-        print("\n[!] Scan interrupted by user (Ctrl+C). Exiting...")
+from blhawk.cli.main import main
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    raise SystemExit(main())
