@@ -6,6 +6,7 @@ unpublished names). So a missing package is usually a *dead resource*, not a
 takeover candidate. Reclaimability is set accordingly and the detection
 engine will not escalate these to takeover on a 404 alone.
 """
+
 from __future__ import annotations
 
 from urllib.parse import urlsplit

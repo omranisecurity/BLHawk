@@ -4,6 +4,7 @@ Deleted user/org/repo handles on code hosts are classic dangling-reference
 sources: a re-registered handle can hijack references in docs, CI configs,
 package manifests and redirects.
 """
+
 from __future__ import annotations
 
 from ..core.http_client import HTTPResponse
@@ -21,9 +22,24 @@ from .base import (
 from .registry import register
 
 _RESERVED = {
-    "about", "site", "features", "security", "enterprise", "pricing", "login",
-    "join", "sponsors", "settings", "marketplace", "explore", "topics",
-    "collections", "trending", "events", "help", "contact",
+    "about",
+    "site",
+    "features",
+    "security",
+    "enterprise",
+    "pricing",
+    "login",
+    "join",
+    "sponsors",
+    "settings",
+    "marketplace",
+    "explore",
+    "topics",
+    "collections",
+    "trending",
+    "events",
+    "help",
+    "contact",
 }
 
 

@@ -1,4 +1,5 @@
 """CLI glue for BugRap program intelligence."""
+
 from __future__ import annotations
 
 import os

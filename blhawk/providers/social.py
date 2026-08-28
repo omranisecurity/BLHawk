@@ -6,6 +6,7 @@ useless and the presence of the "contact right away" block actually marks a
 *live* account. We fingerprint the body instead and stay conservative about
 reclaimability.
 """
+
 from __future__ import annotations
 
 from ..core.http_client import HTTPResponse

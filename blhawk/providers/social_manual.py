@@ -5,6 +5,7 @@ automated access. BLHawk refuses to probe them automatically (it will not try
 to bypass those controls). These providers only recognize the URLs and flag
 them for manual, authorized review — they never issue requests.
 """
+
 from __future__ import annotations
 
 from ..core.models import Reclaimability, Severity

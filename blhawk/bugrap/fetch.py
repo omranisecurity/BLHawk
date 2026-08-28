@@ -4,6 +4,7 @@ This is NOT a mass crawler. It fetches one program page the user explicitly
 requests, honoring robots.txt, and returns best-effort extracted scope that
 must be verified against the official program rules before any scanning.
 """
+
 from __future__ import annotations
 
 from ..core.errors import BLHawkError

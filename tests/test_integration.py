@@ -5,6 +5,7 @@ These reach 127.0.0.1, so they run in controlled-testing mode
 addresses. This exercises the real network path deterministically without
 depending on third-party services.
 """
+
 from __future__ import annotations
 
 import threading
@@ -99,6 +100,7 @@ def test_engine_end_to_end_over_sockets(server, monkeypatch):
         name = "local-test"
         hosts = ("127.0.0.1",)
         from blhawk.core.models import Reclaimability, Severity
+
         default_reclaimability = Reclaimability.POSSIBLE
         default_severity = Severity.MEDIUM
 

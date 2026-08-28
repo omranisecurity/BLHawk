@@ -1,4 +1,5 @@
 """SSRF guard tests: the tool must never connect to internal addresses."""
+
 from __future__ import annotations
 
 import pytest

@@ -1,4 +1,5 @@
 """Tests for the optional, robots-respecting single-program fetch."""
+
 from __future__ import annotations
 
 import pytest
@@ -28,10 +29,10 @@ def client(monkeypatch):
 
 @responses.activate
 def test_fetch_program_allowed_by_robots(client):
-    responses.add(responses.GET, "https://bugrap.io/robots.txt",
-                  status=200, body="User-agent: *\nAllow: /")
-    responses.add(responses.GET, "https://bugrap.io/bounties/example",
-                  status=200, body=PAGE)
+    responses.add(
+        responses.GET, "https://bugrap.io/robots.txt", status=200, body="User-agent: *\nAllow: /"
+    )
+    responses.add(responses.GET, "https://bugrap.io/bounties/example", status=200, body=PAGE)
     program = fetch_program(client, "https://bugrap.io/bounties/example", name="example")
     assets = {a.asset for a in program.assets}
     assert "*.example.org" in assets
@@ -41,8 +42,9 @@ def test_fetch_program_allowed_by_robots(client):
 
 @responses.activate
 def test_fetch_program_blocked_by_robots(client):
-    responses.add(responses.GET, "https://bugrap.io/robots.txt",
-                  status=200, body="User-agent: *\nDisallow: /")
+    responses.add(
+        responses.GET, "https://bugrap.io/robots.txt", status=200, body="User-agent: *\nDisallow: /"
+    )
     with pytest.raises(BLHawkError):
         fetch_program(client, "https://bugrap.io/bounties/example", name="example")
 

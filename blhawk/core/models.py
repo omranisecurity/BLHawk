@@ -3,6 +3,7 @@
 These models are intentionally serialization-friendly (``to_dict``) so that
 the same objects drive terminal, JSON, JSONL, CSV and Markdown output.
 """
+
 from __future__ import annotations
 
 import enum
@@ -163,9 +164,7 @@ class Finding:
     confidence: float = 0.0
     evidence: Evidence = field(default_factory=Evidence)
     scope: ScopeResult = field(default_factory=ScopeResult)
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     duration_ms: int | None = None
     errors: list[str] = field(default_factory=list)
     research_notes: list[str] = field(default_factory=list)

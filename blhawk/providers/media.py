@@ -3,6 +3,7 @@
 Deleted channels/handles can sometimes be re-registered, letting an attacker
 capture links embedded in old content or documentation.
 """
+
 from __future__ import annotations
 
 from ..core.models import Reclaimability, Severity

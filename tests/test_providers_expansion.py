@@ -1,4 +1,5 @@
 """Tests for the curated provider expansion (Phase 8)."""
+
 from __future__ import annotations
 
 import responses
@@ -18,9 +19,21 @@ def _eval(url, client):
 def test_expected_new_providers_registered():
     names = {p.name for p in get_providers()}
     expected = {
-        "bitbucket", "rubygems", "packagist", "crates", "hashnode", "substack",
-        "behance", "appstore", "fdroid", "reddit", "bluesky",
-        "twitter", "facebook", "linkedin", "discord",
+        "bitbucket",
+        "rubygems",
+        "packagist",
+        "crates",
+        "hashnode",
+        "substack",
+        "behance",
+        "appstore",
+        "fdroid",
+        "reddit",
+        "bluesky",
+        "twitter",
+        "facebook",
+        "linkedin",
+        "discord",
     }
     assert expected <= names
 
@@ -43,9 +56,7 @@ def test_rubygems_api_probe(client):
 
 @responses.activate
 def test_packagist_vendor_name_probe(client):
-    responses.add(
-        responses.GET, "https://packagist.org/packages/acme/widget.json", status=404
-    )
+    responses.add(responses.GET, "https://packagist.org/packages/acme/widget.json", status=404)
     signals = _eval("https://packagist.org/packages/acme/widget", client)
     assert signals.state == STATE_MISSING
 

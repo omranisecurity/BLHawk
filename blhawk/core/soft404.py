@@ -6,6 +6,7 @@ catch-all). Trusting such a response would either produce false positives
 a live resource). We detect catch-alls by probing an unlikely random sibling
 path and comparing it to the target response.
 """
+
 from __future__ import annotations
 
 import difflib

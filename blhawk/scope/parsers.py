@@ -3,6 +3,7 @@
 All formats normalize into a :class:`Scope`. YAML is parsed with
 ``yaml.safe_load`` only (never ``load``) to avoid unsafe deserialization.
 """
+
 from __future__ import annotations
 
 import csv

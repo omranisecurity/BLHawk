@@ -1,4 +1,5 @@
 """Scope data model."""
+
 from __future__ import annotations
 
 import enum

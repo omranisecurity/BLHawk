@@ -1,4 +1,5 @@
 """Tests for the built-in providers and the registry."""
+
 from __future__ import annotations
 
 import pytest
@@ -26,9 +27,23 @@ def _ctx(url, client):
 def test_registry_loads_expected_providers():
     names = {p.name for p in get_providers()}
     expected = {
-        "github", "gitlab", "npm", "pypi", "youtube", "vimeo", "twitch",
-        "soundcloud", "telegram", "pinterest", "googleplay", "myket",
-        "cafebazaar", "medium", "dev", "buymeacoffee", "dribbble",
+        "github",
+        "gitlab",
+        "npm",
+        "pypi",
+        "youtube",
+        "vimeo",
+        "twitch",
+        "soundcloud",
+        "telegram",
+        "pinterest",
+        "googleplay",
+        "myket",
+        "cafebazaar",
+        "medium",
+        "dev",
+        "buymeacoffee",
+        "dribbble",
     }
     assert expected <= names
 

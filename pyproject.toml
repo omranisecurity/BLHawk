@@ -13,7 +13,7 @@ authors = [{ name = "omranisecurity" }]
 keywords = ["security", "bug-bounty", "takeover", "dangling-links", "broken-links"]
 dependencies = [
     "colorama==0.4.6",
-    "requests==2.32.4",
+    "requests==2.33.0",
     "validators==0.35.0",
     "PyYAML==6.0.2",
 ]
@@ -24,8 +24,8 @@ Issues = "https://github.com/omranisecurity/BLHawk/issues"
 
 [project.optional-dependencies]
 dev = [
-    "pytest==8.3.3",
-    "pytest-cov==5.0.0",
+    "pytest==9.0.3",
+    "pytest-cov==6.0.0",
     "responses==0.25.3",
     "mypy==1.11.2",
     "ruff==0.6.9",

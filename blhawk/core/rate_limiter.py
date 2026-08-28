@@ -3,6 +3,7 @@
 The default configuration is deliberately conservative so BLHawk behaves
 politely against research targets. Users may raise the limits explicitly.
 """
+
 from __future__ import annotations
 
 import threading
@@ -73,9 +74,7 @@ class RateLimiter:
         with self._lock:
             bucket = self._hosts.get(host)
             if bucket is None:
-                bucket = TokenBucket(
-                    self._per_host_rate, clock=self._clock, sleep=self._sleep
-                )
+                bucket = TokenBucket(self._per_host_rate, clock=self._clock, sleep=self._sleep)
                 self._hosts[host] = bucket
             return bucket
 

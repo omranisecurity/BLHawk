@@ -1,4 +1,5 @@
 """BugRap program data model."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -60,9 +61,7 @@ class Program:
 
     def in_scope_domain_count(self) -> int:
         return sum(
-            1
-            for a in self.in_scope_assets
-            if a.type in ("domain", "wildcard", "url", "api")
+            1 for a in self.in_scope_assets if a.type in ("domain", "wildcard", "url", "api")
         )
 
     def has_wildcard(self) -> bool:

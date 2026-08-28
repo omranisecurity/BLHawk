@@ -1,4 +1,5 @@
 """BugRap program-intelligence tests (fixture-based; no live calls)."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -44,8 +45,9 @@ def test_store_upsert_and_change_detection(tmp_path):
     change = store.upsert(p1)
     assert change.is_new is True
 
-    p2 = Program(name="p", assets=[ProgramAsset("a.com", "domain"),
-                                   ProgramAsset("b.com", "domain")])
+    p2 = Program(
+        name="p", assets=[ProgramAsset("a.com", "domain"), ProgramAsset("b.com", "domain")]
+    )
     change = store.upsert(p2)
     assert change.is_new is False
     assert any("b.com" in a for a in change.added)

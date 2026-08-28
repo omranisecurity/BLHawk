@@ -1,4 +1,5 @@
 """Discovery input tests: files, stdin, scope-derived targets, link extraction."""
+
 from __future__ import annotations
 
 import io
@@ -32,8 +33,9 @@ def test_read_stdin(monkeypatch):
 def test_targets_from_scope_only_concrete_assets():
     scope = Scope(program="P")
     scope.add(ScopeEntry(asset="*.example.com", type=AssetType.WILDCARD, scope="in"))
-    scope.add(ScopeEntry(asset="https://github.com/org/repo", type=AssetType.REPOSITORY,
-                         scope="in"))
+    scope.add(
+        ScopeEntry(asset="https://github.com/org/repo", type=AssetType.REPOSITORY, scope="in")
+    )
     scope.add(ScopeEntry(asset="https://example.com/api", type=AssetType.URL, scope="in"))
     targets = targets_from_scope(scope)
     assert "https://github.com/org/repo" in targets
@@ -45,7 +47,7 @@ def test_targets_from_scope_only_concrete_assets():
 def test_extract_links_fixes_trailing_markup():
     html = (
         '<a href="https://www.youtube.com/@handle">x</a>'
-        ' bare https://github.com/user, and (https://pypi.org/project/req/)'
+        " bare https://github.com/user, and (https://pypi.org/project/req/)"
     )
     links = extract_links(html)
     assert "https://www.youtube.com/@handle" in links
@@ -56,5 +58,5 @@ def test_extract_links_fixes_trailing_markup():
 
 
 def test_extract_links_dedup():
-    html = 'https://x.com/a https://x.com/a https://x.com/a'
+    html = "https://x.com/a https://x.com/a https://x.com/a"
     assert extract_links(html) == ["https://x.com/a"]

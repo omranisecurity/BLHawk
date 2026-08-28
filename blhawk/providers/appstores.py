@@ -4,6 +4,7 @@ App identifiers (package names) generally cannot be reused once published, so
 a removed app is a dead resource rather than a takeover candidate. This is a
 deliberate example of not treating every 404 as vulnerable.
 """
+
 from __future__ import annotations
 
 from ..core.models import Reclaimability, Severity

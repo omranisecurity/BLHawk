@@ -3,6 +3,7 @@
 The original single-file entry point has been refactored into the ``blhawk``
 package. A full CLI regression test lives in ``tests/test_cli.py``.
 """
+
 from __future__ import annotations
 
 import blhawk

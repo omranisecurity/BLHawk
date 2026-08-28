@@ -1,4 +1,5 @@
 """Load target lists from files, stdin, or a parsed scope."""
+
 from __future__ import annotations
 
 import sys

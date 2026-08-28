@@ -5,6 +5,7 @@ a response-size cap, retry/backoff and — critically — an SSRF guard that is
 re-checked on *every* redirect hop. Redirects are followed manually so the
 guard cannot be bypassed by a redirect to an internal address.
 """
+
 from __future__ import annotations
 
 import time
@@ -187,7 +188,7 @@ class SafeHTTPClient:
             return resp
 
     def _backoff(self, attempt: int) -> None:
-        time.sleep(self.backoff_factor * (2 ** attempt))
+        time.sleep(self.backoff_factor * (2**attempt))
 
     # -- convenience -----------------------------------------------------
     def get(self, url: str) -> HTTPResponse:

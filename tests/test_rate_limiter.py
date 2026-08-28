@@ -1,4 +1,5 @@
 """Rate limiter tests using a virtual clock (no real sleeping)."""
+
 from __future__ import annotations
 
 import pytest

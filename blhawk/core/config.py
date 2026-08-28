@@ -3,6 +3,7 @@
 Defaults are intentionally conservative ("safe research behavior first"):
 low concurrency, gentle rate limits, SSRF guard enabled, scope enforced.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

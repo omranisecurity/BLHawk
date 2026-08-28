@@ -7,6 +7,7 @@ program page fetched with the user's authorization and while honoring
 scope source and are re-validated before any live scan. Program metadata is
 cached with timestamps so scope changes can be detected.
 """
+
 from __future__ import annotations
 
 from .models import Program, ProgramAsset

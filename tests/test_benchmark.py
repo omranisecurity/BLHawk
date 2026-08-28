@@ -1,4 +1,5 @@
 """Smoke test for the benchmark harness (small N)."""
+
 from __future__ import annotations
 
 from blhawk.benchmark import run_benchmark

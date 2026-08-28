@@ -1,4 +1,5 @@
 """Scope engine tests: normalization, matching matrix, precedence, parsers."""
+
 from __future__ import annotations
 
 import pytest
@@ -132,8 +133,14 @@ def test_mobile_app_asset_requires_manual_review():
 
 def test_restriction_marks_manual_review():
     scope = Scope(program="T")
-    scope.add(ScopeEntry(asset="example.com", type=AssetType.DOMAIN, scope="in",
-                         restrictions=["manual testing only"]))
+    scope.add(
+        ScopeEntry(
+            asset="example.com",
+            type=AssetType.DOMAIN,
+            scope="in",
+            restrictions=["manual testing only"],
+        )
+    )
     result = classify_target("https://example.com/", scope)
     assert result.status == ScopeStatus.REQUIRES_MANUAL_REVIEW
 

@@ -4,6 +4,7 @@ Errors are split into *retryable* (transient, worth retrying with backoff)
 and *permanent* (retrying will not help) so the scan engine can make sound
 decisions instead of blindly retrying everything.
 """
+
 from __future__ import annotations
 
 

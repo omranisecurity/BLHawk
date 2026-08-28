@@ -1,4 +1,5 @@
 """CLI tests. Network is either avoided (dry-run) or mocked (responses)."""
+
 from __future__ import annotations
 
 import json
@@ -65,10 +66,16 @@ def test_dry_run_no_network(capsys):
 @responses.activate
 def test_end_to_end_scan_json(offline_dns, capsys):
     responses.add(responses.GET, "https://github.com/ghost", status=404)
-    rc = main([
-        "-u", "https://github.com/ghost",
-        "--format", "json", "--no-soft404", "--no-color",
-    ])
+    rc = main(
+        [
+            "-u",
+            "https://github.com/ghost",
+            "--format",
+            "json",
+            "--no-soft404",
+            "--no-color",
+        ]
+    )
     out = capsys.readouterr().out
     assert rc == 0
     data = json.loads(out)
@@ -88,10 +95,16 @@ def test_silent_output(offline_dns, capsys):
 def test_output_file_written(offline_dns, tmp_path, capsys):
     responses.add(responses.GET, "https://pypi.org/pypi/ghostpkg/json", status=404)
     out_file = tmp_path / "results.json"
-    rc = main([
-        "-u", "https://pypi.org/project/ghostpkg/",
-        "--output", str(out_file), "--no-soft404", "--silent",
-    ])
+    rc = main(
+        [
+            "-u",
+            "https://pypi.org/project/ghostpkg/",
+            "--output",
+            str(out_file),
+            "--no-soft404",
+            "--silent",
+        ]
+    )
     assert rc == 0
     data = json.loads(out_file.read_text())
     assert data[0]["provider"] == "pypi"
@@ -107,10 +120,16 @@ def test_extract_links(offline_dns, capsys):
     responses.add(responses.GET, "https://example.com/links", status=200, body=page)
     responses.add(responses.GET, "https://github.com/ghostuser", status=404)
     responses.add(responses.GET, "https://pypi.org/pypi/req/json", status=200, body="{}")
-    rc = main([
-        "-u", "https://example.com/links", "--extract-links",
-        "--format", "json", "--no-soft404",
-    ])
+    rc = main(
+        [
+            "-u",
+            "https://example.com/links",
+            "--extract-links",
+            "--format",
+            "json",
+            "--no-soft404",
+        ]
+    )
     out = capsys.readouterr().out
     assert rc == 0
     data = json.loads(out)
@@ -127,10 +146,19 @@ def test_invalid_threads_returns_error(capsys):
 @responses.activate
 def test_provider_filter(offline_dns, capsys):
     responses.add(responses.GET, "https://github.com/a", status=404)
-    rc = main([
-        "-u", "https://github.com/a", "-u", "https://gitlab.com/b",
-        "--provider", "github", "--format", "json", "--no-soft404",
-    ])
+    rc = main(
+        [
+            "-u",
+            "https://github.com/a",
+            "-u",
+            "https://gitlab.com/b",
+            "--provider",
+            "github",
+            "--format",
+            "json",
+            "--no-soft404",
+        ]
+    )
     out = capsys.readouterr().out
     assert rc == 0
     data = json.loads(out)

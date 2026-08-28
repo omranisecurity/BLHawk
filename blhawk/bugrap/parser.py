@@ -4,6 +4,7 @@ Structured import (JSON/YAML/CSV) is the primary, reliable path. HTML
 extraction is a conservative best-effort helper for static scope tables and
 should always be verified against the official program rules.
 """
+
 from __future__ import annotations
 
 import json

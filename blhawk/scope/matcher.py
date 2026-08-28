@@ -3,6 +3,7 @@
 Precedence rule: an explicit exclude always beats an include. Anything that
 matches no rule is ``UNKNOWN`` (never scanned by default).
 """
+
 from __future__ import annotations
 
 from urllib.parse import urlsplit
@@ -78,11 +79,7 @@ def classify_target(target: str, scope: Scope) -> ScopeResult:
             needs_review = entry.type in MANUAL_TYPES or any(
                 "manual" in r.lower() for r in entry.restrictions
             )
-            status = (
-                ScopeStatus.REQUIRES_MANUAL_REVIEW
-                if needs_review
-                else ScopeStatus.IN_SCOPE
-            )
+            status = ScopeStatus.REQUIRES_MANUAL_REVIEW if needs_review else ScopeStatus.IN_SCOPE
             return ScopeResult(
                 status=status,
                 program=entry.program,

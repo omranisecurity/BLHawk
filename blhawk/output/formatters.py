@@ -1,4 +1,5 @@
 """Render findings as terminal text, JSON, JSONL, CSV or Markdown."""
+
 from __future__ import annotations
 
 import csv
@@ -29,9 +30,7 @@ def _color(text: str, color: str, use_color: bool) -> str:
     return f"{color}{text}{Style.RESET_ALL}"
 
 
-def format_terminal(
-    findings: list[Finding], use_color: bool = True, verbose: bool = False
-) -> str:
+def format_terminal(findings: list[Finding], use_color: bool = True, verbose: bool = False) -> str:
     lines: list[str] = []
     for f in findings:
         color = _VERDICT_COLOR.get(f.verdict, Fore.WHITE)
@@ -78,9 +77,17 @@ def format_jsonl(findings: list[Finding]) -> str:
 
 
 _CSV_FIELDS = [
-    "target", "provider", "status", "severity", "confidence",
-    "scope_status", "program", "http_status", "reclaimability",
-    "signals", "timestamp",
+    "target",
+    "provider",
+    "status",
+    "severity",
+    "confidence",
+    "scope_status",
+    "program",
+    "http_status",
+    "reclaimability",
+    "signals",
+    "timestamp",
 ]
 
 
@@ -89,19 +96,21 @@ def format_csv(findings: list[Finding]) -> str:
     writer = csv.DictWriter(buf, fieldnames=_CSV_FIELDS)
     writer.writeheader()
     for f in findings:
-        writer.writerow({
-            "target": f.target.url,
-            "provider": f.provider or "",
-            "status": f.verdict.value,
-            "severity": f.severity.value,
-            "confidence": round(f.confidence, 4),
-            "scope_status": f.scope.status.value,
-            "program": f.scope.program or "",
-            "http_status": f.evidence.http_status if f.evidence.http_status is not None else "",
-            "reclaimability": f.evidence.reclaimability.value,
-            "signals": "; ".join(f.evidence.signals),
-            "timestamp": f.timestamp,
-        })
+        writer.writerow(
+            {
+                "target": f.target.url,
+                "provider": f.provider or "",
+                "status": f.verdict.value,
+                "severity": f.severity.value,
+                "confidence": round(f.confidence, 4),
+                "scope_status": f.scope.status.value,
+                "program": f.scope.program or "",
+                "http_status": f.evidence.http_status if f.evidence.http_status is not None else "",
+                "reclaimability": f.evidence.reclaimability.value,
+                "signals": "; ".join(f.evidence.signals),
+                "timestamp": f.timestamp,
+            }
+        )
     return buf.getvalue()
 
 

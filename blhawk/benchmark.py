@@ -7,6 +7,7 @@ still apply to real scans.
 
 Run with: ``python -m blhawk.benchmark --urls 500 --threads 20``
 """
+
 from __future__ import annotations
 
 import argparse

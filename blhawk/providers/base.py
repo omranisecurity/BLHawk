@@ -8,6 +8,7 @@ implement the platform-specific interpretation of a response.
 The design deliberately avoids one giant ``if/elif`` chain: providers are
 registered and matched by host, and adding a platform means adding one file.
 """
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -156,9 +157,7 @@ class Provider(ABC):
             if result.reclaimability is not None
             else self.default_reclaimability
         )
-        signals.severity = (
-            result.severity if result.severity is not None else self.default_severity
-        )
+        signals.severity = result.severity if result.severity is not None else self.default_severity
         signals.signals.extend(result.signals)
         signals.notes.extend(result.notes)
         return signals
@@ -178,13 +177,9 @@ class StatusProvider(Provider):
     def interpret(self, resp: HTTPResponse, ctx: ProviderContext) -> InterpretResult:
         status = resp.status_code
         if status in self.missing_statuses:
-            return InterpretResult(
-                state=STATE_MISSING, signals=[f"http-status={status}"]
-            )
+            return InterpretResult(state=STATE_MISSING, signals=[f"http-status={status}"])
         if status in self.present_statuses:
-            return InterpretResult(
-                state=STATE_PRESENT, signals=[f"http-status={status}"]
-            )
+            return InterpretResult(state=STATE_PRESENT, signals=[f"http-status={status}"])
         if status in (401, 403):
             return InterpretResult(
                 state=STATE_BLOCKED,

@@ -1,4 +1,5 @@
 """Scan engine tests: dedup, scope enforcement, dry-run, soft-404, ordering."""
+
 from __future__ import annotations
 
 import re
@@ -18,12 +19,14 @@ def _scanner(client, scope=None, **cfg):
 
 
 def test_prepare_targets_dedup_and_normalize():
-    targets = prepare_targets([
-        "github.com/foo",
-        "https://github.com/foo/",  # duplicate after normalization
-        "https://github.com/bar#frag",
-        "",
-    ])
+    targets = prepare_targets(
+        [
+            "github.com/foo",
+            "https://github.com/foo/",  # duplicate after normalization
+            "https://github.com/bar#frag",
+            "",
+        ]
+    )
     urls = [t.url for t in targets]
     assert urls == ["https://github.com/foo", "https://github.com/bar"]
     assert targets[0].provider == "github"

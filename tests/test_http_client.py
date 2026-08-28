@@ -1,4 +1,5 @@
 """SafeHTTPClient tests with mocked HTTP (no real network)."""
+
 from __future__ import annotations
 
 import pytest

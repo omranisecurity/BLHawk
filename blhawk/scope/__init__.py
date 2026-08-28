@@ -1,4 +1,5 @@
 """Scope subsystem: parse, normalize, and enforce authorized testing scope."""
+
 from __future__ import annotations
 
 from .matcher import classify_target

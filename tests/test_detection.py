@@ -1,4 +1,5 @@
 """Detection engine + soft-404 tests, with a focus on false positives."""
+
 from __future__ import annotations
 
 from blhawk.core.models import Reclaimability, Severity, Verdict
@@ -100,8 +101,7 @@ def test_soft404_detector_flags_catchall():
 
 def test_soft404_detector_distinct_pages_not_catchall():
     det = Soft404Detector()
-    res = det.analyze(200, "<html>real profile of alice</html>",
-                      404, "<html>not found</html>")
+    res = det.analyze(200, "<html>real profile of alice</html>", 404, "<html>not found</html>")
     assert res.is_catch_all is False
 
 
@@ -116,8 +116,13 @@ def test_random_control_url_is_sibling():
 
 
 def test_evidence_built_from_signals():
-    s = sig(STATE_MISSING, http_status=404, reclaimability=Reclaimability.POSSIBLE,
-            final_url="https://x/y", signals=["http-status=404"])
+    s = sig(
+        STATE_MISSING,
+        http_status=404,
+        reclaimability=Reclaimability.POSSIBLE,
+        final_url="https://x/y",
+        signals=["http-status=404"],
+    )
     c = engine.classify(s)
     ev = engine.build_evidence(s, c)
     assert ev.http_status == 404

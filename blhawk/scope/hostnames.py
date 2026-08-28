@@ -3,6 +3,7 @@
 Correct, defensive hostname handling is the crux of scope safety: a wildcard
 like ``*.example.com`` must never accidentally match ``example.com.evil.com``.
 """
+
 from __future__ import annotations
 
 import ipaddress

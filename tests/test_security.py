@@ -1,4 +1,5 @@
 """Security hardening suite: BLHawk must never become an SSRF/abuse primitive."""
+
 from __future__ import annotations
 
 import pytest
@@ -72,7 +73,9 @@ def test_response_size_bounded(monkeypatch):
 @responses.activate
 def test_redirect_to_metadata_endpoint_blocked(monkeypatch):
     responses.add(
-        responses.GET, "https://example.com/go", status=302,
+        responses.GET,
+        "https://example.com/go",
+        status=302,
         headers={"Location": "http://169.254.169.254/latest/meta-data/"},
     )
     guard = SSRFGuard()

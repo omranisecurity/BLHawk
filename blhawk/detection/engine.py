@@ -10,6 +10,7 @@ Design principles:
 * When evidence is ambiguous the engine prefers ``UNKNOWN`` over a false
   vulnerability.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -54,19 +55,15 @@ class DetectionEngine:
             if soft404_catch_all:
                 extra_signals.append("soft-404 catch-all detected")
                 notes.append("presence unreliable: host is a soft-404 catch-all")
-                return Classification(Verdict.UNKNOWN, Severity.INFO, 0.3,
-                                      extra_signals, notes)
-            return Classification(Verdict.NOT_VULNERABLE, Severity.INFO, 0.9,
-                                  extra_signals, notes)
+                return Classification(Verdict.UNKNOWN, Severity.INFO, 0.3, extra_signals, notes)
+            return Classification(Verdict.NOT_VULNERABLE, Severity.INFO, 0.9, extra_signals, notes)
 
         if signals.state == STATE_BLOCKED:
             notes.append("access restricted (401/403); cannot determine state")
-            return Classification(Verdict.UNKNOWN, Severity.INFO, 0.3,
-                                  extra_signals, notes)
+            return Classification(Verdict.UNKNOWN, Severity.INFO, 0.3, extra_signals, notes)
 
         if signals.state == STATE_UNKNOWN:
-            return Classification(Verdict.UNKNOWN, Severity.INFO, 0.2,
-                                  extra_signals, notes)
+            return Classification(Verdict.UNKNOWN, Severity.INFO, 0.2, extra_signals, notes)
 
         if signals.state == STATE_MISSING:
             verdict, confidence, sev_cap = _MISSING_MAP.get(
@@ -77,15 +74,16 @@ class DetectionEngine:
             # catch-all host, we cannot trust it -> downgrade to UNKNOWN.
             if soft404_catch_all and signals.http_status not in (404, 410):
                 notes.append("missing inferred on a soft-404 catch-all host; unreliable")
-                return Classification(Verdict.UNKNOWN, Severity.INFO, 0.25,
-                                      extra_signals, notes)
+                return Classification(Verdict.UNKNOWN, Severity.INFO, 0.25, extra_signals, notes)
             severity = _min_severity(signals.severity, sev_cap)
             return Classification(verdict, severity, confidence, extra_signals, notes)
 
         return Classification(Verdict.UNKNOWN, Severity.INFO, 0.1, extra_signals, notes)
 
     def build_evidence(
-        self, signals: ProviderSignals, classification: Classification,
+        self,
+        signals: ProviderSignals,
+        classification: Classification,
         soft404_catch_all: bool | None = None,
     ) -> Evidence:
         return Evidence(

@@ -5,6 +5,7 @@ here. By default BLHawk refuses to connect to private, loopback, link-local,
 reserved, or cloud-metadata addresses so that it can never be turned into an
 SSRF primitive. Users may opt into an explicit controlled-testing mode.
 """
+
 from __future__ import annotations
 
 import ipaddress

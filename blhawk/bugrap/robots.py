@@ -3,6 +3,7 @@
 Fetching is routed through the SafeHTTPClient (so the SSRF guard applies) and
 gated by ``robots.txt`` to respect the site's crawl policy.
 """
+
 from __future__ import annotations
 
 from urllib.parse import urlsplit

@@ -4,6 +4,7 @@ Fixes the original extractor bug where a regex greedily captured trailing
 markup (e.g. ``https://x/y</a``). We extract from href/src attributes first,
 then bare URLs, and strip trailing punctuation/markup.
 """
+
 from __future__ import annotations
 
 import re

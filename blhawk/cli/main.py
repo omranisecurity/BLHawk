@@ -1,4 +1,5 @@
 """Argument parsing and command dispatch for BLHawk."""
+
 from __future__ import annotations
 
 import argparse
@@ -38,10 +39,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--platform", help="program platform (e.g. bugrap)")
     p.add_argument("--provider", help="only scan targets handled by this provider")
     p.add_argument("--threads", type=int, default=5, help="concurrent workers (default 5)")
-    p.add_argument("--rate-limit", type=float, default=2.0,
-                   help="per-host requests/sec (default 2)")
-    p.add_argument("--global-rate", type=float, default=5.0,
-                   help="global requests/sec (default 5)")
+    p.add_argument(
+        "--rate-limit", type=float, default=2.0, help="per-host requests/sec (default 2)"
+    )
+    p.add_argument("--global-rate", type=float, default=5.0, help="global requests/sec (default 5)")
     p.add_argument("--timeout", type=float, default=15.0, help="request timeout seconds")
     p.add_argument("--format", choices=FORMATS, default="terminal", help="stdout format")
     p.add_argument("--output", help="write JSON results to this file")
@@ -53,17 +54,27 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--debug", action="store_true", help="debug logging")
     p.add_argument("--no-color", action="store_true", help="disable colored output")
     p.add_argument("--no-soft404", action="store_true", help="disable soft-404 probing")
-    p.add_argument("--dry-run", action="store_true",
-                   help="show what would be tested without security-testing requests")
-    p.add_argument("--extract-links", action="store_true",
-                   help="fetch each -u page and scan the links it contains")
-    p.add_argument("--allow-private", action="store_true",
-                   help="DANGER: disable SSRF guard (controlled testing only)")
+    p.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="show what would be tested without security-testing requests",
+    )
+    p.add_argument(
+        "--extract-links",
+        action="store_true",
+        help="fetch each -u page and scan the links it contains",
+    )
+    p.add_argument(
+        "--allow-private",
+        action="store_true",
+        help="DANGER: disable SSRF guard (controlled testing only)",
+    )
     p.add_argument("--list-providers", action="store_true", help="list providers and exit")
     p.add_argument("--list-programs", action="store_true", help="list programs and exit")
     p.add_argument("--import-programs", help="import program metadata (JSON/YAML) into the store")
-    p.add_argument("--fetch-program",
-                   help="fetch a single program page (robots-respecting) into the store")
+    p.add_argument(
+        "--fetch-program", help="fetch a single program page (robots-respecting) into the store"
+    )
     p.add_argument("--store-dir", help="directory for the BugRap program store cache")
     p.add_argument("--validate-scope", help="parse and summarize a scope file, then exit")
     p.add_argument("--version", action="version", version=f"BLHawk {__version__}")

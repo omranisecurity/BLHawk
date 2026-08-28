@@ -1,4 +1,5 @@
 """Output formatter tests."""
+
 from __future__ import annotations
 
 import csv
@@ -20,15 +21,22 @@ from blhawk.output.formatters import format_findings
 
 def _finding():
     return Finding(
-        target=Target(raw="https://github.com/ghost", url="https://github.com/ghost",
-                      host="github.com", provider="github"),
+        target=Target(
+            raw="https://github.com/ghost",
+            url="https://github.com/ghost",
+            host="github.com",
+            provider="github",
+        ),
         provider="github",
         verdict=Verdict.POTENTIALLY_RECLAIMABLE,
         severity=Severity.MEDIUM,
         confidence=0.65,
-        evidence=Evidence(http_status=404, resource_state="missing",
-                          reclaimability=Reclaimability.POSSIBLE,
-                          signals=["http-status=404"]),
+        evidence=Evidence(
+            http_status=404,
+            resource_state="missing",
+            reclaimability=Reclaimability.POSSIBLE,
+            signals=["http-status=404"],
+        ),
         scope=ScopeResult(status=ScopeStatus.IN_SCOPE, program="Example"),
     )
 

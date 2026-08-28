@@ -4,6 +4,7 @@ User-controlled values (URLs, hostnames, response snippets) are sanitized
 before logging so that a malicious target cannot forge log lines
 (CR/LF/control-character log injection).
 """
+
 from __future__ import annotations
 
 import logging
@@ -32,9 +33,7 @@ def configure_logging(level: int = logging.WARNING) -> None:
     logger.setLevel(level)
     if not _CONFIGURED:
         handler = logging.StreamHandler()
-        handler.setFormatter(
-            logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s")
-        )
+        handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
         logger.addHandler(handler)
         _CONFIGURED = True
     else:

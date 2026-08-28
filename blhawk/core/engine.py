@@ -4,6 +4,7 @@ Ties providers, detection, scope and the safe HTTP client together with
 bounded concurrency, per-host + global rate limiting, deduplication,
 deterministic ordering, and graceful cancellation (Ctrl+C).
 """
+
 from __future__ import annotations
 
 import threading
@@ -159,9 +160,7 @@ class Scanner:
 
         if not self._should_scan(scope_result):
             finding.verdict = Verdict.UNKNOWN
-            finding.research_notes.append(
-                f"skipped: scope status {scope_result.status.value}"
-            )
+            finding.research_notes.append(f"skipped: scope status {scope_result.status.value}")
             finding.duration_ms = 0
             return finding
 
@@ -197,7 +196,8 @@ class Scanner:
         def work(index: int, target: Target) -> tuple[int, Finding]:
             if self._cancel.is_set():
                 cancelled = Finding(
-                    target=target, provider=target.provider,
+                    target=target,
+                    provider=target.provider,
                     scope=self._scope_result(target),
                 )
                 cancelled.research_notes.append("cancelled before execution")

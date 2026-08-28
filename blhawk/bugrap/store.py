@@ -1,4 +1,5 @@
 """On-disk cache of BugRap program metadata with change detection."""
+
 from __future__ import annotations
 
 import json
@@ -55,8 +56,9 @@ class ProgramStore:
         programs = self.load()
         existing = programs.get(program.name)
         if existing is None:
-            change = ChangeSet(program=program.name, is_new=True,
-                               added=sorted(program.asset_keys()))
+            change = ChangeSet(
+                program=program.name, is_new=True, added=sorted(program.asset_keys())
+            )
         else:
             old_keys = existing.asset_keys()
             new_keys = program.asset_keys()

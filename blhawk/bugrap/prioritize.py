@@ -4,6 +4,7 @@ Scoring balances coverage (in-scope assets, wildcards, provider support) with
 practicality (freshness, restrictions). It deliberately does not optimize for
 bounty size alone.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
